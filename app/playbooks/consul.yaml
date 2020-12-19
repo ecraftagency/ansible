@@ -1,0 +1,12 @@
+- hosts: consul_instances
+  name: Boostrap Consul cluster
+  any_errors_fatal: true
+  become: yes
+  become_method: sudo
+  remote_user: root
+  gather_facts: yes
+  roles:
+    - role: brianshumate.consul
+      tags:
+        - consul
+

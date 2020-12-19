@@ -1,0 +1,25 @@
+- name: Setup redis stream online
+  hosts:
+    - redis-stream-online
+  tasks:
+    - name: Install redis
+      yum:
+        name: redis
+        state: present
+    - name: Ensure redis started
+      service:
+        name: redis
+        enabled: yes
+        state: started
+    - name: Settings redis configs
+      delegate_to: 127.0.0.1
+      consul_kv:
+        value: "{{ lookup('template','{{ playbook_dir }}/../templates/redis/redis-no-secure.json.j2') | to_nice_json(indent=2) }}"
+        key: "databases/redis/stream_online"
+        # host: "127.0.0.1"
+        host: "{{ groups['consul-master'][0] }}"
+        state: present
+      vars:
+        redis_database: "0"
+        redis_port: "6379"
+        redis_host: "{{ ansible_eth1.ipv4.address }}"

@@ -1,0 +1,5 @@
+{
+    "topic": "livestream_join_leave_stream",
+    "type": "{{ type }}",
+    "queueUri": "{{ queue }}"
+}

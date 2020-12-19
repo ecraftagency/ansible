@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/common.yaml hostlist={{ nomad_hosts }}
+- import_playbook: playbooks/consul.yml hostlist={{ nomad_hosts }}
+- import_playbook: playbooks/nomad/cni.yml hostlist={{ nomad_hosts }}
+- import_playbook: playbooks/nomad.yaml hostlist={{ nomad_hosts }}

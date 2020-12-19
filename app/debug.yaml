@@ -1,0 +1,19 @@
+---
+- name: Testing
+  hosts: localhost
+  vars:
+    databases:
+      - host: localhost
+        port: 3306
+        database: defaultdn
+        username: doadmin
+        user_password: show-password
+  tasks:
+    - debug: msg="{{ lookup('template', 'templates/mysql/connection.json.j2') }}"
+      vars:
+        host: "{{ item.host }}"
+        port: "{{ item.port }}"
+        database: "{{item.database}}"
+        username: "{{ item.username }}"
+        password: "{{ item.user_password }}"
+      with_items: "{{databases}}"

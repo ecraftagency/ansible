@@ -1,0 +1,91 @@
+---
+- name: Generate CA for Self Signed Certs
+  hosts: zookeeper[0]
+  tags: certificate_authority
+  tasks:
+    - import_role:
+        name: confluent.variables_handlers
+
+    - name: Create Certificate Authority and Copy to Ansible Host
+      include_tasks: tasks/certificate_authority.yml
+      when: (self_signed|bool and regenerate_ca|bool and kafka_broker_listeners | ssl_required(ssl_enabled)) or create_mds_certs|bool
+
+- name: Host Prerequisites
+  hosts: zookeeper:kafka_broker:schema_registry:kafka_connect:ksql:control_center:kafka_rest
+  tags: common
+  environment: "{{ proxy_env }}"
+  tasks:
+    - import_role:
+        name: confluent.common
+    - import_role:
+        name: geerlingguy.pip # required. The name of the role to be executed.
+      vars:
+        pip_package: python3-pip
+        pip_install_packages:
+          - name: python-consul
+  roles:
+    - role: geerlingguy.repo-epel
+      when: ansible_os_family == 'RedHat'
+    - role: geerlingguy.ntp
+      vars:
+        ntp_enabled: true
+        ntp_timezone: "Asia/Ho_Chi_Minh"
+
+- name: Zookeeper Provisioning
+  hosts: zookeeper
+  tags: zookeeper
+  environment: "{{ proxy_env }}"
+  tasks:
+    - import_role:
+        name: confluent.zookeeper
+    - name: Register Consul
+      consul:
+        host: "{{ groups['consul-master'][0] }}"
+        interval: 10s
+        service_name: zookeeper
+        service_id: "zookeeper{{ zookeeper_id }}"
+        service_address: "{{ansible_eth1.ipv4.address}}"
+        service_port: 2181
+        state: present
+        check_id: "zookeeper={{ zookeeper_id }}-alive"
+
+    - name: Create ZK Hosts List
+      set_fact:
+        zookeeper_hosts: "{{ zookeeper_hosts | default([]) + [':'.join((item,'2181'))] }}"
+      loop: "{{ groups['zookeeper'] }}"    
+    - name: Set Info on Consul
+      consul_kv:
+        host: "{{ groups['consul-master'][0] }}"
+        state: present
+        key: "services/zk_servers"
+        value: "{{ zookeeper_hosts | join(',') }}"
+
+- name: Kafka Broker Provisioning
+  hosts: kafka_broker
+  tags: kafka_broker
+  environment: "{{ proxy_env }}"
+  tasks:
+    - import_role:
+        name: confluent.kafka_broker
+    - name: Register Consul
+      consul:
+        host: "{{ groups['consul-master'][0] }}"
+        interval: 10s
+        service_name: kafka
+        service_id: "kafka{{ kafka_node_id }}"
+        service_address: "{{ansible_eth1.ipv4.address}}"
+        service_port: 9092
+        state: present
+        check_id: "kafka={{ kafka_node_id }}-alive"
+
+    - name: Create Kafka Broker Hosts List
+      set_fact:
+        kafka_brokers: "{{ kafka_brokers | default([]) + [':'.join((item,'9092'))] }}"
+      loop: "{{ groups['kafka_broker'] }}"    
+    - name: Set Info on Consul
+      consul_kv:
+        host: "{{ groups['consul-master'][0] }}"
+        state: present
+        key: "services/kafka_brokers"
+        value: "{{ kafka_brokers | join(',') }}"        
+

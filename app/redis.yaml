@@ -1,0 +1,75 @@
+- name: Setting redis into Consul
+  hosts: localhost
+  vars:
+    databases:
+      ## Persistence
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: stream_tags
+        db_index: 1
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: stream_boosted_score
+        db_index: 1
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: payment
+        db_index: 2
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: event
+        db_index: 3
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: localized_string
+        db_index: 4
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: gift_suggestion
+        db_index: 10        
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: cdn
+        db_index: 9
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: private_chat
+        db_index: 8
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: friend
+        db_index: 12       
+      - source: "{{ playbook_dir }}/files/redis/redis-persistence.json"
+        purpose: extra_profile
+        db_index: 15              
+      ## LRU
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: cms
+        db_index: 14
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: stream_group
+        db_index: 0
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: stream
+        db_index: 1
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: daily_candy_quest
+        db_index: 2     
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: ranking
+        db_index: 10    
+      - source: "{{ playbook_dir }}/files/redis/redis-lru.json"
+        purpose: pubsub
+        db_index: 0              
+      ## Stream Online
+      # - source: "{{ playbook_dir }}/files/redis/redis-stream-online.json"
+      #   purpose: stream_online
+      #   db_index: 0
+  tasks:
+    - name: Settings redis configs
+      consul_kv:
+        value: "{{ lookup('template','templates/redis/redis.json.j2') | to_nice_json(indent=2) }}"
+        key: "databases/redis/{{item.purpose}}"
+        # host: "127.0.0.1"
+        host: "{{ groups['consul-master'][0] }}"
+        state: present
+      vars:
+        redis_info: "{{ lookup('file','{{ item.source }}') | from_json }}"
+        redis_database: "{{item.db_index}}"
+        redis_port: "{{ redis_info['port'] }}"
+        redis_host: "{{ redis_info['private_host'] }}"
+        redis_password: "{{ redis_info['password'] }}"
+        redis_user: "{{ redis_info['user'] }}"
+      with_items:
+        - "{{databases}}"

@@ -1,0 +1,15 @@
+nomad_node_role: client
+nomad_iface: eth1
+nomad_network_interface: eth1
+nomad_docker_enable: true
+nomad_reserved_cpu: "{{ (total_cpu_mhz | int * 0.2) | int }}"
+nomad_reserved_memory: "{{ (ansible_memory_mb.real.total | int * 0.2) | int }}"
+nomad_options:
+  driver.whitelist: docker
+nomad_config_custom:
+  plugin:
+    docker:
+      config:
+        allow_privileged: true
+        auth:
+          config: /root/.docker/config.json

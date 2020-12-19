@@ -1,0 +1,55 @@
+- name: Initial hosts
+  hosts:
+    - all
+  tags:
+    - common
+  pre_tasks:
+    - name: Update APT
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+      when: ansible_os_family == 'Debian'
+  roles:
+    - role: geerlingguy.repo-epel
+      when: ansible_os_family == 'RedHat'
+    - role: geerlingguy.ntp
+      vars:
+        ntp_enabled: true
+        ntp_timezone: "Asia/Ho_Chi_Minh"
+
+- name: Init nomad agent
+  hosts:
+    - nomad-agent
+  tags:
+    - agent-common
+    - common
+  pre_tasks:
+    - name: Ensure iptables is installed
+      yum:
+        name: iptables-services
+        state: present
+  roles:
+    - role: geerlingguy.pip
+      vars:
+        pip_package: python3-pip
+        pip_install_packages:
+          - name: docker-py
+          - name: netaddr
+    - role: geerlingguy.docker
+      vars:
+        docker_install_compose: No
+  tasks:
+    - name: Add daemon.json
+      copy:
+        src: docker/daemon.json
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: docker
+        mode: 0644
+    - name: Login into docker
+      docker_login:
+        registry: registry.gitlab.com
+        username: vunguyen1987
+        password: Mh9sEubJBMMtTosHD-A8

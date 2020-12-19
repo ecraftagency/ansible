@@ -1,0 +1,75 @@
+---
+- name: Setup PostgresQL
+  hosts: localhost
+  vars_prompt:
+    - name: postgres_server_host
+      prompt: "PostgresQL Host. Ex: private-postgres-do-user-7573480-0.a.db.ondigitalocean.com"
+    - name: postgres_root_password
+      prompt: "PostgresQL Password?"
+      private: yes
+      unsafe: yes
+  vars:
+    postgres_server_port: 25060
+    postgres_root_user: doadmin
+    postgres_default_db: defaultdb
+    postgres_databases:
+      - name: user_wallet
+        encoding: UTF-8
+        state: present
+        user_name: wallet_manager
+        user_password: yBpFhe9axMgXv2Ra
+        user_state: present
+  tasks:
+    - name: Create {{ item.name }} database
+      postgresql_db:
+        login_host: "{{ postgres_server_host }}"
+        login_user: "{{ postgres_root_user }}"
+        login_password: "{{ postgres_root_password }}"
+        maintenance_db: "{{ postgres_default_db }}"
+        port: "{{ postgres_server_port }}"
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        encoding: "{{ item.encoding }}"
+      with_items: "{{ postgres_databases }}"
+      no_log: true
+    - name: Create {{ item.name }} user
+      postgresql_user:
+        login_host: "{{ postgres_server_host }}"
+        login_user: "{{ postgres_root_user }}"
+        login_password: "{{ postgres_root_password }}"
+        login_port: "{{ postgres_server_port }}"
+        login_db: "{{ item.name }}"
+        ## User section
+        name: "{{ item.user_name }}"
+        password: "{{ item.user_password }}"
+        state: "{{ item.user_state }}"
+      with_items: "{{ postgres_databases }}"
+      no_log: true
+    - name: Create role/priviledges for user
+      postgresql_privs:
+        roles: "{{ item.name }}_manager"
+        database: "{{ item.name }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+        login_user: "{{ postgres_root_user }}"
+        login_host: "{{ postgres_server_host }}"
+        login_password: "{{ postgres_root_password }}"
+        state: present
+        type: table
+        port: "{{ postgres_server_port }}"
+      with_items: "{{ postgres_databases }}"
+      no_log: true
+    - name: Update database information into Consul
+      consul_kv:
+        host: "{{ groups['consul-master'][0] }}"
+        value: "{{ lookup('template','templates/postgresql/connection.json.j2') | to_nice_json(indent=2) }}"
+        key: "databases/postgresql/{{item.name}}"
+        state: "{{ item.state }}"
+      vars:
+        host: "{{ postgres_server_host }}"
+        port: "{{ postgres_server_port }}"
+        database: "{{ item.name }}"
+        username: "{{ item.user_name }}"
+        password: "{{ item.user_password }}"
+      with_items: "{{ postgres_databases }}"
+      no_log: true

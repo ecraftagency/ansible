@@ -1,0 +1,14 @@
+nomad_version: 0.11.3
+nomad_datacenter: do_sgp1
+nomad_advertise_address: "{{ansible_eth1.ipv4.address}}"
+nomad_group_name: nomad_instances
+nomad_encrypt: LhjbB0I9fUXSsjwyucRrAQ==
+nomad_node_name: "{{inventory_hostname}}"
+nomad_use_consul: yes
+nomad_config_custom:
+   telemetry:
+      collection_interval: "5s"
+      disable_hostname: true
+      prometheus_metrics: true
+      publish_allocation_metrics: true
+      publish_node_metrics: true

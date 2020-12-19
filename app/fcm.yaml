@@ -1,0 +1,17 @@
+- name: Setting FCM into Consul
+  hosts: localhost
+  vars:
+    data:
+      ## Persistence
+      - source: "{{ playbook_dir }}/files/consul-kv/services/fcm.json"
+        key: services/fcm
+  tasks:
+    - name: Update configs into Consul
+      consul_kv:
+        value: "{{ lookup('file','{{ item.source }}') | from_json | to_nice_json(indent=2) }}"
+        key: "{{ item.key }}"
+        host: "127.0.0.1"
+        # host: "{{ groups['consul-master'][0] }}"
+        state: present
+      with_items:
+        - "{{data}}"

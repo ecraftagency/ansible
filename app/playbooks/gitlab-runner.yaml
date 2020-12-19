@@ -1,0 +1,30 @@
+---
+- hosts: gitlab-runner
+  remote_user: root
+  become: Yes
+  roles:
+    - { role: geerlingguy.docker }
+    - role: riemers.gitlab-runner
+      vars:
+        gitlab_runner_runners:
+          - name: "gitlab-runner{{ gitlab_runner_id }}.hara.com"
+            concurrent_specific: "18"
+            token: "2_RXSSkorRiLer9RQzZK"
+            executor: docker
+            docker_image: alpine
+            run_untagged: No
+            tags: ["internal"]
+            docker_volumes:
+              - "/var/run/docker.sock:/var/run/docker.sock"
+              - "/cache"
+            docker_privileged: Yes
+            cache_type: s3
+            cache_shared: true
+            cache_path: gitlab-runner-cache
+            cache_s3_server_address: "sgp1.digitaloceanspaces.com"
+            cache_s3_access_key: "SWIHFFQMIYGJ6WGTVWJZ"
+            cache_s3_secret_key: "zfk5psEPY5vd6k1+zKHLthnBQfkqcPwa3ZsCGxB5dj4"
+            cache_s3_bucket_name: "build-cache"
+            extra_configs:
+              runners.docker:
+                dns: ["{{ansible_eth1.ipv4.address}}"]

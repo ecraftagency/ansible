@@ -1,0 +1,3 @@
+consul_node_role: client
+consul_dnsmasq_enable: yes
+consul_syslog_enable: yes

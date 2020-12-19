@@ -1,0 +1,8 @@
+- name: Debug
+  hosts: localhost
+  tasks:
+    - name: Calculate CPUs speed
+      tags:
+        - cpu
+      set_fact: servers="{{ groups['consul_instances'] }}"
+    - debug: var=servers

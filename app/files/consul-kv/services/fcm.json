@@ -1,0 +1,7 @@
+{
+    "host": "fcm-xmpp.googleapis.com",
+    "port": 5235,
+    "username": "885205848797@gcm.googleapis.com",
+    "password": "AAAAzhphUt0:APA91bFGxCvZVwSs9GXylf4zHIbOTZNWv9n97K9k1LGc5pdRCQiL7bPbYYo2K_89Q3o1aeutx45aeICxbvBFH74rMgsGF3xs2ySWErN5BoJ7msisnpkjCeyHNQT2oBB9FgFvfSBPJlOy",
+    "fcm_title": "Notification"
+}

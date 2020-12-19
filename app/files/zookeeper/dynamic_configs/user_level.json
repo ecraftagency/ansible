@@ -1,0 +1,398 @@
+[
+    {
+        "level": 1,
+        "point": 0
+    },
+    {
+        "level": 2,
+        "point": 500
+    },
+    {
+        "level": 3,
+        "point": 1500
+    },
+    {
+        "level": 4,
+        "point": 3000
+    },
+    {
+        "level": 5,
+        "point": 5000
+    },
+    {
+        "level": 6,
+        "point": 7500
+    },
+    {
+        "level": 7,
+        "point": 10500
+    },
+    {
+        "level": 8,
+        "point": 14000
+    },
+    {
+        "level": 9,
+        "point": 18000
+    },
+    {
+        "level": 10,
+        "point": 26000
+    },
+    {
+        "level": 11,
+        "point": 35000
+    },
+    {
+        "level": 12,
+        "point": 45000
+    },
+    {
+        "level": 13,
+        "point": 56000
+    },
+    {
+        "level": 14,
+        "point": 68000
+    },
+    {
+        "level": 15,
+        "point": 81000
+    },
+    {
+        "level": 16,
+        "point": 95000
+    },
+    {
+        "level": 17,
+        "point": 110000
+    },
+    {
+        "level": 18,
+        "point": 126000
+    },
+    {
+        "level": 19,
+        "point": 143000
+    },
+    {
+        "level": 20,
+        "point": 161000
+    },
+    {
+        "level": 21,
+        "point": 180000
+    },
+    {
+        "level": 22,
+        "point": 200000
+    },
+    {
+        "level": 23,
+        "point": 221000
+    },
+    {
+        "level": 24,
+        "point": 243000
+    },
+    {
+        "level": 25,
+        "point": 266000
+    },
+    {
+        "level": 26,
+        "point": 290000
+    },
+    {
+        "level": 27,
+        "point": 315000
+    },
+    {
+        "level": 28,
+        "point": 341000
+    },
+    {
+        "level": 29,
+        "point": 368000
+    },
+    {
+        "level": 30,
+        "point": 396000
+    },
+    {
+        "level": 31,
+        "point": 425000
+    },
+    {
+        "level": 32,
+        "point": 455000
+    },
+    {
+        "level": 33,
+        "point": 486000
+    },
+    {
+        "level": 34,
+        "point": 518000
+    },
+    {
+        "level": 35,
+        "point": 551000
+    },
+    {
+        "level": 36,
+        "point": 585000
+    },
+    {
+        "level": 37,
+        "point": 620000
+    },
+    {
+        "level": 38,
+        "point": 656000
+    },
+    {
+        "level": 39,
+        "point": 693000
+    },
+    {
+        "level": 40,
+        "point": 731000
+    },
+    {
+        "level": 41,
+        "point": 770000
+    },
+    {
+        "level": 42,
+        "point": 810000
+    },
+    {
+        "level": 43,
+        "point": 851000
+    },
+    {
+        "level": 44,
+        "point": 893000
+    },
+    {
+        "level": 45,
+        "point": 936000
+    },
+    {
+        "level": 46,
+        "point": 980000
+    },
+    {
+        "level": 47,
+        "point": 1025000
+    },
+    {
+        "level": 48,
+        "point": 1071000
+    },
+    {
+        "level": 49,
+        "point": 1118000
+    },
+    {
+        "level": 50,
+        "point": 1188000
+    },
+    {
+        "level": 51,
+        "point": 1260000
+    },
+    {
+        "level": 52,
+        "point": 1334000
+    },
+    {
+        "level": 53,
+        "point": 1410000
+    },
+    {
+        "level": 54,
+        "point": 1488000
+    },
+    {
+        "level": 55,
+        "point": 1568000
+    },
+    {
+        "level": 56,
+        "point": 1650000
+    },
+    {
+        "level": 57,
+        "point": 1734000
+    },
+    {
+        "level": 58,
+        "point": 1820000
+    },
+    {
+        "level": 59,
+        "point": 1908000
+    },
+    {
+        "level": 60,
+        "point": 2028000
+    },
+    {
+        "level": 61,
+        "point": 2150000
+    },
+    {
+        "level": 62,
+        "point": 2274000
+    },
+    {
+        "level": 63,
+        "point": 2400000
+    },
+    {
+        "level": 64,
+        "point": 2528000
+    },
+    {
+        "level": 65,
+        "point": 2658000
+    },
+    {
+        "level": 66,
+        "point": 2790000
+    },
+    {
+        "level": 67,
+        "point": 2924000
+    },
+    {
+        "level": 68,
+        "point": 3060000
+    },
+    {
+        "level": 69,
+        "point": 3198000
+    },
+    {
+        "level": 70,
+        "point": 3398000
+    },
+    {
+        "level": 71,
+        "point": 3603000
+    },
+    {
+        "level": 72,
+        "point": 3813000
+    },
+    {
+        "level": 73,
+        "point": 4028000
+    },
+    {
+        "level": 74,
+        "point": 4248000
+    },
+    {
+        "level": 75,
+        "point": 4473000
+    },
+    {
+        "level": 76,
+        "point": 4703000
+    },
+    {
+        "level": 77,
+        "point": 4938000
+    },
+    {
+        "level": 78,
+        "point": 5178000
+    },
+    {
+        "level": 79,
+        "point": 5423000
+    },
+    {
+        "level": 80,
+        "point": 5773000
+    },
+    {
+        "level": 81,
+        "point": 6223000
+    },
+    {
+        "level": 82,
+        "point": 6773000
+    },
+    {
+        "level": 83,
+        "point": 7423000
+    },
+    {
+        "level": 84,
+        "point": 8173000
+    },
+    {
+        "level": 85,
+        "point": 9023000
+    },
+    {
+        "level": 86,
+        "point": 9973000
+    },
+    {
+        "level": 87,
+        "point": 11023000
+    },
+    {
+        "level": 88,
+        "point": 12173000
+    },
+    {
+        "level": 89,
+        "point": 13423000
+    },
+    {
+        "level": 90,
+        "point": 15423000
+    },
+    {
+        "level": 91,
+        "point": 18423000
+    },
+    {
+        "level": 92,
+        "point": 22423000
+    },
+    {
+        "level": 93,
+        "point": 27423000
+    },
+    {
+        "level": 94,
+        "point": 33423000
+    },
+    {
+        "level": 95,
+        "point": 41423000
+    },
+    {
+        "level": 96,
+        "point": 51423000
+    },
+    {
+        "level": 97,
+        "point": 66423000
+    },
+    {
+        "level": 98,
+        "point": 86423000
+    },
+    {
+        "level": 99,
+        "point": 116423000
+    }
+]

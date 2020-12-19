@@ -1,0 +1,5 @@
+{
+    "topic": "livestream_send_heart",
+    "type": "{{ type }}",
+    "queueUri": "{{ queue }}"
+}

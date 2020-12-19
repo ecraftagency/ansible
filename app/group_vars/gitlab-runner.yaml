@@ -1,0 +1,1 @@
+gitlab_runner_id: "{{ group_names | select('match', '^gitlab-runner_[0-9]+$') | first | regex_replace('gitlab-runner_([0-9]+)$','\\1') }}"

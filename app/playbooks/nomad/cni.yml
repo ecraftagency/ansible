@@ -1,0 +1,63 @@
+- name: Download CNI
+  gather_facts: No
+  hosts:
+    - nomad-agent
+  vars:
+    cni_version: v0.8.3
+    download_url: https://github.com/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-amd64-{{ cni_version }}.tgz
+  tasks:
+    - name: Download package checksum file
+      get_url:
+        url: "{{ download_url }}.sha256"
+        dest: "/tmp/cni-{{ cni_version }}_SHA256SUMS"
+        validate_certs: false
+      delegate_to: 127.0.0.1
+    - name: Read package checksum
+      shell: "grep {{ cni_version }} /tmp/cni-{{ cni_version }}_SHA256SUMS"
+      register: cni_sha256
+      changed_when: false
+      delegate_to: 127.0.0.1
+    - name: Download package
+      get_url:
+        url: "{{ download_url }}"
+        dest: "/tmp/cni-{{ cni_version }}"
+        checksum: "sha256:{{ cni_sha256.stdout.split(' ') | first }}"
+      delegate_to: 127.0.0.1
+
+- name: Install CNI plugin
+  gather_facts: No
+  hosts:
+    - nomad-agent
+  vars:
+    cni_version: v0.8.3
+    cni_bin_path: /opt/cni/bin
+  tasks:
+    - name: Create opt dir
+      become: yes
+      file:
+        path: /opt/cni/bin
+        state: directory
+        group: bin
+        mode: "0644"
+    - name: Install remotes
+      copy:
+        src: "/tmp/cni-{{ cni_version }}"
+        dest: "/tmp/cni-{{ cni_version }}"
+    - name: Install CNIs
+      become: yes
+      unarchive:
+        remote_src: true
+        src: "/tmp/cni-{{ cni_version }}"
+        dest: "{{ cni_bin_path }}"
+    - name: Config container network traffic
+      become: yes
+      shell: "echo 1 > /proc/sys/net/bridge/{{ item }}"
+      with_items:
+        - bridge-nf-call-arptables
+        - bridge-nf-call-ip6tables
+        - bridge-nf-call-iptables
+    - name: Config container network traffic on startup
+      become: yes
+      copy:
+        src: 10-cni.conf
+        dest: /etc/sysctl.d/10-cni.conf

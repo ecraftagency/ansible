@@ -1,0 +1,22 @@
+- hosts:
+    - nomad_instances
+  name: Boostrap Nomad cluster
+  any_errors_fatal: true
+  become: yes
+  become_method: sudo
+  remote_user: root
+  gather_facts: Yes
+  pre_tasks:
+    - name: Get CPU info
+      tags:
+        - cpu
+      shell: cat /proc/cpuinfo |  grep "cpu MHz" | awk -F ':' '{print $2}'
+      register: cpuinfo
+    - name: Calculate CPUs speed
+      tags:
+        - cpu
+      set_fact: total_cpu_mhz="{{ cpuinfo.stdout.split('\n') | map('trim') | map('int') | sum(start=0) }}"
+  roles:
+    - role: brianshumate.nomad
+      tags:
+        - nomad

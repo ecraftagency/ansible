@@ -1,0 +1,40 @@
+nomad_meta:
+  scribelog: Yes
+  artifactory: Yes
+nomad_host_volumes:
+  - name: scribelog
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/scribelog"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: artifactory
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/artifactory"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: user_level_point_counter
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/user_level_point_counter"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: biglist_follower
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/biglist_follower"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: apple_name2id
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/apple_name2id"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: friend_listi32i32
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/friend_listi32i32"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false

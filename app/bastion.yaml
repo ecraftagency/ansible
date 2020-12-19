@@ -1,0 +1,36 @@
+- name: Initial hosts
+  hosts:
+    - localhost
+  tasks:
+    - name: Setup Repo EPEL
+      include_role:
+        name: geerlingguy.repo-epel # required. The name of the role to be executed.
+      when: ansible_os_family == 'RedHat'
+    - name: OS packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - ansible
+        - vim
+        - unzip
+        - wget
+        - python3-psycopg2
+    - name: Setup PIP
+      include_role:
+        name: geerlingguy.pip # required. The name of the role to be executed.
+      vars:
+        pip_package: python3-pip
+        pip_install_packages:
+          - name: python-consul
+          - name: netaddr
+          - name: kazoo
+          - name: pymysql
+          - name: psycopg2
+    - name: Install and setup NTP
+      include_role: 
+        name: geerlingguy.ntp
+      vars:
+        ntp_enabled: true
+        ntp_timezone: "Asia/Ho_Chi_Minh"

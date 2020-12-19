@@ -1,0 +1,5 @@
+{
+    "topic": "tracking_stream_info",
+    "type": "{{ type }}",
+    "queueUri": "{{ queue }}"
+}

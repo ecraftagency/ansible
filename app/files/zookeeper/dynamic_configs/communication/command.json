@@ -1,0 +1,10 @@
+{
+    "notify": 100,
+    "subcmd_error": 2,
+    "subcmd_successful": 1,
+    "go_online_topic": "livestream_online",
+    "go_offline_topic": "livestream_offline",
+    "ping_topic": "livestream_ping",
+    "kick_connection_topic": "livestream_kick_connection",
+    "need_response_commands": []
+}

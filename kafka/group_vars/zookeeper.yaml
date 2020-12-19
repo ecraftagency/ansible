@@ -1,0 +1,3 @@
+zookeeper_id: "{{ group_names | select('match', '^module_zookeeper_cluster_node_[0-9]+$') | first | regex_replace('module_zookeeper_cluster_node_([0-9]+)$','\\1') }}"
+dataDir: "/mnt/zookeeper_{{ group_names | select('match', '^module_zookeeper_cluster_node_[0-9]+$') | first | regex_replace('module_zookeeper_cluster_node_([0-9]+)$','\\1') }}"
+jmxexporter_enabled: true

@@ -1,0 +1,6 @@
+{
+    "live-restore": true,
+    "log-opts": {
+        "env": "NOMAD_GROUP_NAME,NOMAD_TASK_NAME,NOMAD_DC,NOMAD_JOB_NAME,NOMAD_NAMESPACE,NOMAD_ALLOC_ID"
+    }
+}

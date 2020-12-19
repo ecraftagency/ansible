@@ -1,0 +1,5 @@
+{
+    "topic": "livestream_offline_message_unread",
+    "type": "{{ type }}",
+    "queueUri": "{{ queue }}"
+}

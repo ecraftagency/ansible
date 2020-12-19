@@ -1,0 +1,33 @@
+---
+all:
+  vars:
+    ansible_connection: ssh
+    ansible_user: vagrant
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_become: true
+zookeeper:
+  hosts:
+    38.19.93.11:
+      zookeeper_id: 1
+    38.19.93.12:
+      zookeeper_id: 2
+    38.19.93.13:
+      zookeeper_id: 3
+
+kafka_broker:
+  vars:
+    kafka_broker:
+      datadir:
+        - /var/lib/kafka/data
+      properties:
+        num.partitions: 4
+    jmxexporter_enabled: true
+  hosts:
+    38.19.93.21:
+      broker_id: 1
+    38.19.93.22:
+      broker_id: 2
+    38.19.93.23:
+      broker_id: 3

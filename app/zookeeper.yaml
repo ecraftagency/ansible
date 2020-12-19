@@ -1,0 +1,82 @@
+- name: Setup zookeeper
+  hosts: localhost
+  tags:
+    - commons
+  vars:
+    data:
+      - path: /dynamic_configs/tags
+      - path: /dynamic_configs/user_level
+      - path: /dynamic_configs/banner
+      - path: /dynamic_configs/system_message
+      - path: /dynamic_configs/app_popup
+      - path: /dynamic_configs/tags/config
+      - path: /dynamic_configs/banned_login/config
+      - path: /dynamic_configs/communication/command
+  tasks:
+    - name: ZK Data
+      znode:
+        hosts: "{{ groups['zookeeper'][0] }}"
+        name: "{{ item.path }}"
+        value: "{{ lookup('file', 'files/zookeeper/{{item.path}}.json') | from_json | to_json(separators=(',',':')) }}"
+        state: present
+      with_items:
+        - "{{ data }}"
+
+- name: Setup communication zookeeper
+  tags:
+    - communication
+  hosts: localhost
+  vars:
+    data:
+      - path: /dynamic_configs/communication/command/101
+        queue: "{{ lookup('file', 'files/redis/redis-lru.json') }}"
+        type: 2
+      - path: /dynamic_configs/communication/command/102
+        type: 1
+      - path: /dynamic_configs/communication/command/103
+        type: 1
+      - path: /dynamic_configs/communication/command/104
+        type: 1
+      - path: /dynamic_configs/communication/command/105
+        queue: "{{ lookup('file', 'files/redis/redis-lru.json') }}"
+        type: 2
+      - path: /dynamic_configs/communication/command/107
+        type: 1
+      - path: /dynamic_configs/communication/command/110
+        type: 1
+      - path: /dynamic_configs/communication/command/111
+        type: 1
+      - path: /dynamic_configs/communication/command/112
+        type: 1
+      - path: /dynamic_configs/communication/command/113
+        type: 1
+      - path: /dynamic_configs/communication/command/150
+        type: 1
+  tasks:
+    - name: Setup Redis Message Queue
+      znode:
+        hosts: "{{ groups['zookeeper'][0] }}"
+        name: "{{ item.path }}"
+        value: "{{ lookup('template', 'files/zookeeper/{{item.path}}.json') | to_json(separators=(',',':')) }}"
+        state: present
+      vars:
+        queue: "{{ item.queue.private_uri }}"
+        type: "{{ item.type }}"
+      with_items:
+        - "{{ data }}"
+      when: item.type == 2
+      no_log: True
+    - name: Setup Kafka Message Queue
+      znode:
+        hosts: "{{ groups['zookeeper'][0] }}"
+        name: "{{ item.path }}"
+        value: "{{ lookup('template', 'files/zookeeper/{{item.path}}.json') | to_json(separators=(',',':')) }}"
+        state: present
+      vars:
+        queue: ""
+        type: "{{ item.type }}"
+      with_items:
+        - "{{ data }}"
+      when: item.type == 1
+      no_log: True
+

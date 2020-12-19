@@ -1,0 +1,8 @@
+{
+    "database": "{{ redis_database | default(0) }}",
+    "port": "{{ redis_port }}",
+    "private_host": "{{ redis_host }}",
+    "host": "{{ redis_host }}",
+    "private_uri": "redis://{{ redis_host }}:{{ redis_port }}/{{ redis_database | default(0) }}",
+    "uri": "redis://{{ redis_host }}:{{ redis_port }}/{{ redis_database | default(0) }}",
+}

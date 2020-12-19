@@ -1,0 +1,5 @@
+{
+    "topic": "livestream_offline_message_confirm",
+    "type": "{{ type }}",
+    "queueUri": "{{ queue }}"
+}

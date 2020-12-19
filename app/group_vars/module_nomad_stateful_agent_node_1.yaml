@@ -1,0 +1,109 @@
+nomad_host_volumes:
+  - name: top-fan
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/top-fan"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: user-session
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/user-session"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: stdprofile
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/stdprofile"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: id_generator
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/id_generator"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: sent_diamond_point_counter
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/sent_diamond_point_counter"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: facebook_name2id
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/facebook_name2id"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: google_name2id
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/google_name2id"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: top_rank
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/top_rank"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: user_session_listi32string
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/user_session_listi32string"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: friend_request_listi32i32
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/friend_request_listi32i32"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: following_listi32i32
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/following_listi32i32"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: stream_notify_mute_bloom_filter
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/stream_notify_mute_bloom_filter"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: user_device_token
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/user_device_token"
+    owner: root
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: stream_stats
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/stream_stats"
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: stream-reminder
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/stream-reminder"
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: attractive_point_counter
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/attractive_point_counter"
+    group: bin
+    mode: "0644"
+    read_only: false
+  - name: username_name2id
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/username_name2id"
+    group: bin
+    mode: "0644"
+    read_only: false    
+  - name: user_connection
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/user_connection"
+    group: bin
+    mode: "0644"
+    read_only: false    
+  - name: grafana
+    path: "/mnt/worker_{{nomad_stateful_agent_id}}/grafana"
+    group: bin
+    mode: "0666"
+    read_only: false        

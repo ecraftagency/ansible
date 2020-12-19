@@ -1,0 +1,79 @@
+---
+- name: Setup MySQL
+  hosts: localhost
+  vars_prompt:
+    - name: mysql_server_host
+      prompt: "MySQL Host. Ex: private-mysql-do-user-7573480-0.a.db.ondigitalocean.com"
+    - name: mysql_root_password
+      prompt: "MySQL Password?"
+      private: yes
+      unsafe: yes
+  vars:
+    mysql_server_port: 25060
+    mysql_root_user: doadmin
+    mysql_netmark: "10.10.0.0/255.255.0.0"
+    mysql_databases:
+      - name: livestream
+        encoding: utf8
+        state: present
+        user_name: livestream_manager
+        user_password: M7LHnrkPdvWPzu9y
+        user_state: present
+      - name: analytics
+        encoding: utf8
+        state: present
+        user_name: analytics_manager
+        user_password: mVdgrnE62PYyCk94bp2fdj4yKFyRzJSt
+        user_state: present
+      - name: user_vip
+        encoding: utf8
+        state: present
+        user_name: user_vip_manager
+        user_password: 6QtHxpZz8Mj6XY6HFV38wjTC4PMnQJ6Q
+        user_state: present
+      - name: user_equipment
+        encoding: utf8
+        state: present
+        user_name: user_equipment_manager
+        user_password: 8CQTrnk9dX7BmcspwGfsDc5Gs484hL9L
+        user_state: present
+  tasks:
+    - name: Create {{ item.name }} database
+      mysql_db:
+        login_host: "{{ mysql_server_host }}"
+        login_user: "{{ mysql_root_user }}"
+        login_password: "{{ mysql_root_password }}"
+        login_port: "{{ mysql_server_port }}"
+        name: " {{ item.name }} "
+        state: "{{ item.state }}"
+        encoding: "{{ item.encoding }}"
+      with_items: "{{ mysql_databases }}"
+      # no_log: true
+    - name: Create {{ item.name }} user
+      mysql_user:
+        login_host: "{{ mysql_server_host }}"
+        login_user: "{{ mysql_root_user }}"
+        login_password: "{{ mysql_root_password }}"
+        login_port: "{{ mysql_server_port }}"
+        ## User section
+        name: "{{ item.user_name }}"
+        password: "{{ item.user_password }}"
+        host: "{{ mysql_netmark }}"
+        priv: "{{ item.name }}.*:ALL"
+        state: "{{ item.user_state }}"
+      with_items: "{{ mysql_databases }}"
+      no_log: true
+    - name: Update database information into Consul
+      consul_kv:
+        host: "{{ groups['consul-master'][0] }}"
+        value: "{{ lookup('template','templates/mysql/connection.json.j2') | to_nice_json(indent=2) }}"
+        key: "databases/mysql/{{item.name}}"
+        state: "{{ item.state }}"
+      vars:
+        host: "{{ mysql_server_host }}"
+        port: "{{ mysql_server_port }}"
+        database: "{{ item.name }}"
+        username: "{{ item.user_name }}"
+        password: "{{ item.user_password }}"
+      with_items: "{{ mysql_databases }}"
+      no_log: true

@@ -1,0 +1,13 @@
+- src: https://github.com/ansible-community/ansible-nomad
+  name: brianshumate.nomad
+  version: cd1a60b38b34dcbdc2f7320ab8aff2c6b4106729
+- name: brianshumate.consul
+  src: https://github.com/ansible-community/ansible-consul
+  version: b3564607fbe3c52f7062d735748376904bc589f3
+- src: geerlingguy.docker
+  version: "2.9.0"
+- src: geerlingguy.ntp
+- src: geerlingguy.pip
+- src: geerlingguy.repo-epel
+- src: riemers.gitlab-runner
+  version: v1.6.15

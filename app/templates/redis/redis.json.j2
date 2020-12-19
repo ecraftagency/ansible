@@ -1,0 +1,10 @@
+{
+    "database": "{{ redis_database | default(0) }}",
+    "password": "{{ redis_password }}",
+    "port": "{{ redis_port }}",
+    "private_host": "{{ redis_host }}",
+    "host": "{{ redis_host }}",
+    "private_uri": "rediss://{{ redis_user }}:{{ redis_password }}@{{ redis_host }}:{{ redis_port }}/{{ redis_database | default(0) }}",
+    "uri": "rediss://{{ redis_user }}:{{ redis_password }}@{{ redis_host }}:{{ redis_port }}/{{ redis_database | default(0) }}",
+    "user": "{{ redis_user }}"
+}

@@ -1,0 +1,17 @@
+consul_datacenter: do_sgp1
+consul_version: 1.7.2
+consul_bind_address: "{{ansible_eth1.ipv4.address}}"
+consul_advertise_address: "{{ansible_eth1.ipv4.address}}"
+consul_client_address: "0.0.0.0"
+consul_group_name: consul_instances
+consul_iface: eth1
+consul_raw_key: mCpG0W15MbHublcYYZxHJ835hZA3mC2p+7N6Hws3pWA=
+consul_encrypt_enable: yes
+consul_node_name: " {{ inventory_hostname }}"
+consul_gather_server_facts: yes
+consul_ui: yes
+consul_config_custom:
+  enable_script_checks: No
+  connect:
+    enabled: true    
+consul_ports_grpc: 8502   
